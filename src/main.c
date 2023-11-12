@@ -48,7 +48,47 @@ void* quicksort_thread(void* arg){
 
 void merge(int* array, int left, int right){
     int i, j, k;
-    
+    int left_el_num = left;
+    int size_of_chunk = right - left + 1;
+    int L_array[left_el_num]; // массив для элементов левее куска потока i
+    int Chunk_array[size_of_chunk]; // массив для элементов в куске потока i
+
+    for(int i = 0; i < left_el_num; i++){
+        L_array[i] = array[i];
+    }
+    for(int j = 0; j < size_of_chunk; j++){
+        Chunk_array[j] = array[left + j];
+    }
+
+    // Мешаем массивы для упорядочивания
+    i = 0;
+    j = 0;
+    k = 0;
+    while(i < left_el_num & j < size_of_chunk){
+        if (L_array[i] <= Chunk_array[j]) {
+            array[k] = L_array[i];
+            i++;
+        } else {
+            array[k] = Chunk_array[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Копируем оставшиеся элементы L_array
+    while(i < left_el_num) {
+        array[k] = L_array[i];
+        i++;
+        k++;
+    }
+
+    // Копируем оставшиеся элементы Chunk_array
+    while(j < size_of_chunk) {
+        array[k] = Chunk_array[j];
+        j++;
+        k++;
+    }
+
 }
 
 
@@ -104,7 +144,7 @@ int main(int argc, char* argv[]){
     // соединяем результаты в один массив
     for(int i = 0; i < max_threads; i++){
         pthread_join(threads[i], NULL);
-      //  merge(array, thread_info[i].left, thread_info[i].right);
+        merge(array, thread_info[i].left, thread_info[i].right);
     }
 
     clock_t end_time = clock();
