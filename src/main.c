@@ -24,7 +24,7 @@ void quicksort(int* array, int left, int right){
         while(array[j_right] > pivot) j_right--;
 
         if ( i_left <= j_right){
-            if (array[i_left] < array[j_right]){
+            if (array[i_left] > array[j_right]){
                 int temp = array[i_left];
                 array[i_left] = array[j_right];
                 array[j_right] = temp;
