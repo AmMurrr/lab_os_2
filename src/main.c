@@ -122,7 +122,7 @@ int main(int argc, char* argv[]){
     printf("\n");
 
     int max_threads = MAX_THREADS; 
-    if ( argc == 3){
+    if ( argc == 3 & atoi(argv[2]) > 0){
         max_threads = atoi(argv[2]);
     }
 
@@ -130,6 +130,9 @@ int main(int argc, char* argv[]){
 
     struct ThreadInfo thread_info[max_threads];
     pthread_t threads[max_threads];
+
+    if(max_threads > array_size)
+        max_threads = array_size;
 
     // разделяем массив на куски и распределяем их по потокам
     int chunk_size = array_size / max_threads;
