@@ -122,8 +122,11 @@ int main(int argc, char* argv[]){
     printf("\n");
 
     int max_threads = MAX_THREADS; 
-    if ( argc == 3 & atoi(argv[2]) > 0){
-        max_threads = atoi(argv[2]);
+    if ( argc == 3){
+        if (atoi(argv[2]) > 0 ) {
+            max_threads = atoi(argv[2]);
+        }
+            
     }
 
     clock_t start_time = clock();
